@@ -27,6 +27,8 @@ public class MessageController {
       produtor.enviarMensagemParaAposentados("Olá Aposentados!");
       produtor.enviarMensagemParaMulheresAtivas("Olá Mulheres Ativas!");
       produtor.enviarMensagemErrada("Olá Daniel!");
+      //for (int i = 0; i < 1000; i++)
+        produtor.enviarMensagemParaAliceComTempoDeVidaBaixo("Olá Atrasado Alice!");
       return "OK";
     }
 }

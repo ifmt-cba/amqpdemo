@@ -43,7 +43,11 @@ public class AmqpdemoApplication {
 
     @Bean
     public Queue aliceQueue() {
-        return new Queue("q.alice");
+        Map<String, Object> args = new HashMap<String, Object>();
+        args.put("x-dead-letter-exchange", "de.deadletter");
+        args.put("x-dead-letter-routing-key", "rk.deadletter");
+        args.put("x-message-ttl", 1);
+        return new Queue("q.alice", true, false, false, args);
     }
 
     @Bean
@@ -59,6 +63,11 @@ public class AmqpdemoApplication {
     @Bean
     public Queue invalidQueue() {
         return new Queue("q.invalid");
+    }
+
+    @Bean
+    public Queue deadLetterQueue() {        
+        return new Queue("q.deadletter");
     }
 
     /*
@@ -77,6 +86,25 @@ public class AmqpdemoApplication {
         return BindingBuilder
                 .bind(invalidQueue)
                 .to(invalidMessageFanoutExchange);
+    }
+
+    /*
+    * =====================================================================
+    * 					PARA MENSAGENS VENCIDAS
+    * =====================================================================
+    */
+
+    @Bean
+    public DirectExchange deadLetterDirectExchange() {
+        return new DirectExchange("de.deadletter");
+    }
+
+    @Bean
+    public Binding deadLetterDEBindging(Queue deadLetterQueue, DirectExchange deadLetterDirectExchange) {
+        return BindingBuilder
+                .bind(deadLetterQueue)
+                .to(deadLetterDirectExchange)
+                .with("rk.deadletter");
     }
 
     /*

@@ -9,7 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class Bob {
 
     @RabbitListener(queues = "q.bob")
-    private void recebeMensagem(String msg) {
+    private void recebeMensagem(String msg) throws InterruptedException {
+        Thread.sleep(8000);
         System.out.println("Bob recebeu: " + msg);
     }
 

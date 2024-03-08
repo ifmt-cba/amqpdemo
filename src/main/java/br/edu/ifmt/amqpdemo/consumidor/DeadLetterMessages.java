@@ -6,12 +6,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class Alice {
+public class DeadLetterMessages {
 
-    @RabbitListener(queues = "q.alice")
-    private void recebeMensagem(String msg) throws InterruptedException {
-        Thread.sleep(6000);
-        System.out.println("Alice recebeu: " + msg);
+    @RabbitListener(queues = "q.deadletter")
+    private void recebeMensagem(String msg) {
+        System.out.println("Mensagem vencida: " + msg);
     }
 
 }

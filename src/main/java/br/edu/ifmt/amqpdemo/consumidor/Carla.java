@@ -15,7 +15,8 @@ import com.rabbitmq.client.Channel;
 public class Carla {
 
     @RabbitListener(queues = "q.carla", ackMode = "MANUAL")
-    private void recebeMensagem(String msg, Channel channel, @Header(AmqpHeaders.DELIVERY_TAG) long tag) throws IOException {
+    private void recebeMensagem(String msg, Channel channel, @Header(AmqpHeaders.DELIVERY_TAG) long tag) throws IOException, InterruptedException {
+        Thread.sleep(5000);
         System.out.println("Carla recebeu: " + msg);
         channel.basicAck(tag, false);
     }
