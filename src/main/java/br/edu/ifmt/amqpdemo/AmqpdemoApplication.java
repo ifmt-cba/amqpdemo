@@ -56,6 +56,29 @@ public class AmqpdemoApplication {
         return new Queue("q.carla");
     }
 
+    @Bean
+    public Queue invalidQueue() {
+        return new Queue("q.invalid");
+    }
+
+    /*
+    * =====================================================================
+    * 					PARA TRATAMENTO DE MENSAGENS INVALIDAS
+    * =====================================================================
+    */
+
+    @Bean
+    public FanoutExchange invalidMessageFanoutExchange() {
+        return new FanoutExchange("fe.invalid");
+    }
+
+    @Bean
+    public Binding invalidFEBindging(Queue invalidQueue, FanoutExchange invalidMessageFanoutExchange) {
+        return BindingBuilder
+                .bind(invalidQueue)
+                .to(invalidMessageFanoutExchange);
+    }
+
     /*
     * =====================================================================
     * 							DIRECT EXCHANGE
@@ -64,7 +87,9 @@ public class AmqpdemoApplication {
 
     @Bean
     public DirectExchange messageDirectExchange() {
-        return new DirectExchange("de.message");
+        DirectExchange de = new DirectExchange("de.message",true, false);
+        de.addArgument("alternate-exchange", "fe.invalid");
+        return de;
     }
 
     @Bean
