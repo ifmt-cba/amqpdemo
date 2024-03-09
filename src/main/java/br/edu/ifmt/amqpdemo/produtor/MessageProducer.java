@@ -65,14 +65,11 @@ public class MessageProducer {
     }
 
     public void enviarMensagemParaAliceComTempoDeVidaBaixo(String msg) {
-        //MessageProperties propriedades = MessagePropertiesBuilder.newInstance()
-        //.setHeader("x-dead-letter-exchange", "de.deadletter")
-        //.setHeader("x-dead-letter-routing-key", "rk.deadletter")
-        //.setHeader("expiration", "1000")
-        //.build();
-
-        //Message mensagem = new Message(msg.getBytes(), propriedades);
-        template.convertAndSend("de.message","rk.alice",msg, new MyMessagePostProcessor(1));        
+        template.convertAndSend("de.message","rk.alice",msg,
+            message -> {
+                message.getMessageProperties().setExpiration(String.valueOf(1000));
+                return message;
+            });        
     }
     
 }
