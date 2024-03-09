@@ -82,7 +82,7 @@ public class AmqpdemoApplication {
     }
 
     @Bean
-    public Binding invalidFEBindging(Queue invalidQueue, FanoutExchange invalidMessageFanoutExchange) {
+    public Binding invalidFEBinding(Queue invalidQueue, FanoutExchange invalidMessageFanoutExchange) {
         return BindingBuilder
                 .bind(invalidQueue)
                 .to(invalidMessageFanoutExchange);
@@ -100,7 +100,7 @@ public class AmqpdemoApplication {
     }
 
     @Bean
-    public Binding deadLetterDEBindging(Queue deadLetterQueue, DirectExchange deadLetterDirectExchange) {
+    public Binding deadLetterDEBinding(Queue deadLetterQueue, DirectExchange deadLetterDirectExchange) {
         return BindingBuilder
                 .bind(deadLetterQueue)
                 .to(deadLetterDirectExchange)
@@ -121,7 +121,7 @@ public class AmqpdemoApplication {
     }
 
     @Bean
-    public Binding aliceDEBindging(Queue aliceQueue, DirectExchange messageDirectExchange) {
+    public Binding aliceDEBinding(Queue aliceQueue, DirectExchange messageDirectExchange) {
         return BindingBuilder
                 .bind(aliceQueue)
                 .to(messageDirectExchange)
@@ -129,7 +129,7 @@ public class AmqpdemoApplication {
     }
 
     @Bean
-    public Binding bobDEBindging(Queue bobQueue, DirectExchange messageDirectExchange) {
+    public Binding bobDEBinding(Queue bobQueue, DirectExchange messageDirectExchange) {
         return BindingBuilder
                 .bind(bobQueue)
                 .to(messageDirectExchange)
@@ -137,7 +137,7 @@ public class AmqpdemoApplication {
     }
 
     @Bean
-    public Binding carlaDEBindging(Queue carlaQueue, DirectExchange messageDirectExchange) {
+    public Binding carlaDEBinding(Queue carlaQueue, DirectExchange messageDirectExchange) {
         return BindingBuilder
                 .bind(carlaQueue)
                 .to(messageDirectExchange)
@@ -156,21 +156,21 @@ public class AmqpdemoApplication {
     }
 
     @Bean
-    public Binding aliceFEBindging(Queue aliceQueue, FanoutExchange messageFanoutExchange) {
+    public Binding aliceFEBinding(Queue aliceQueue, FanoutExchange messageFanoutExchange) {
         return BindingBuilder
                 .bind(aliceQueue)
                 .to(messageFanoutExchange);
     }
 
     @Bean
-    public Binding bobFEBindging(Queue bobQueue, FanoutExchange messageFanoutExchange) {
+    public Binding bobFEBinding(Queue bobQueue, FanoutExchange messageFanoutExchange) {
         return BindingBuilder
                 .bind(bobQueue)
                 .to(messageFanoutExchange);
     }
 
     @Bean
-    public Binding carlaFEBindging(Queue carlaQueue, FanoutExchange messageFanoutExchange) {
+    public Binding carlaFEBinding(Queue carlaQueue, FanoutExchange messageFanoutExchange) {
         return BindingBuilder
                 .bind(carlaQueue)
                 .to(messageFanoutExchange);
