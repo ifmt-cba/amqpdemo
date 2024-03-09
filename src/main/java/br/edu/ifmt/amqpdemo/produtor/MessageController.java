@@ -28,7 +28,8 @@ public class MessageController {
       produtor.enviarMensagemParaMulheresAtivas("Olá Mulheres Ativas!");
       produtor.enviarMensagemErrada("Olá Daniel!");
       produtor.enviarMensagemParaAliceComTempoDeVidaBaixo("Olá Atrasado Alice!");
-      
+      System.out.println("de.alice?: " + produtor.descobrirQuemEh("de.alice"));
+
       return "OK";
     }
 }

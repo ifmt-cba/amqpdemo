@@ -14,4 +14,8 @@ public class Alice {
         System.out.println("Alice recebeu: " + msg);
     }
 
+    @RabbitListener(queues = "q.quemsou")
+    public String quemSou() {
+        return "Olá, meu nome é Alice.";
+    }
 }

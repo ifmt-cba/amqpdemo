@@ -71,5 +71,11 @@ public class MessageProducer {
                 return message;
             });        
     }
+
+    public String descobrirQuemEh(String exchange) {
+        return template.convertSendAndReceive(exchange,
+                    "rk.quemsou",
+                    "").toString();
+    } 
     
 }

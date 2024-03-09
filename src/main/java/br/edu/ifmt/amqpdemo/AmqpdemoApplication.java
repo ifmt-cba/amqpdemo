@@ -70,6 +70,11 @@ public class AmqpdemoApplication {
         return new Queue("q.deadletter");
     }
 
+    @Bean
+    public Queue quemSouQueue() {        
+        return new Queue("q.quemsou");
+    }
+
     /*
     * =====================================================================
     * 					PARA TRATAMENTO DE MENSAGENS INVALIDAS
@@ -121,6 +126,11 @@ public class AmqpdemoApplication {
     }
 
     @Bean
+    public DirectExchange aliceDirectExchange() {
+        return new DirectExchange("de.alice");
+    }
+
+    @Bean
     public Binding aliceDEBinding(Queue aliceQueue, DirectExchange messageDirectExchange) {
         return BindingBuilder
                 .bind(aliceQueue)
@@ -142,6 +152,14 @@ public class AmqpdemoApplication {
                 .bind(carlaQueue)
                 .to(messageDirectExchange)
                 .with("rk.carla");
+    }
+
+    @Bean
+    public Binding quemsouDEBindingAlice(Queue quemSouQueue, DirectExchange aliceDirectExchange) {
+        return BindingBuilder
+                .bind(quemSouQueue)
+                .to(aliceDirectExchange)
+                .with("rk.quemsou");
     }
 
     /*
