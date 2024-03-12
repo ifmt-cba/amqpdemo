@@ -10,8 +10,12 @@ import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.HeadersExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
+import org.springframework.amqp.rabbit.AsyncRabbitTemplate;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -73,6 +77,16 @@ public class AmqpdemoApplication {
     @Bean
     public Queue quemSouQueue() {        
         return new Queue("q.quemsou");
+    }
+
+    @Bean
+    public Queue bobRequestQueue() {        
+        return new Queue("q.bob.request");
+    }
+
+    @Bean
+    public Queue bobReplyQueue() {        
+        return new Queue("q.bob.reply");
     }
 
     /*
@@ -160,6 +174,14 @@ public class AmqpdemoApplication {
                 .bind(quemSouQueue)
                 .to(aliceDirectExchange)
                 .with("rk.quemsou");
+    }
+
+    @Bean
+    public Binding bobAsyncDEBinding(Queue bobRequestQueue, DirectExchange messageDirectExchange) {
+        return BindingBuilder
+                .bind(bobRequestQueue)
+                .to(messageDirectExchange)
+                .with("rk.bob.request");
     }
 
     /*

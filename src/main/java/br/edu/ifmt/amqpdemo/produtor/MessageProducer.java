@@ -1,18 +1,33 @@
 package br.edu.ifmt.amqpdemo.produtor;
 
+import java.util.Random;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.core.MessagePropertiesBuilder;
+import org.springframework.amqp.rabbit.AsyncRabbitTemplate;
+import org.springframework.amqp.rabbit.RabbitConverterFuture;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.stereotype.Service;
+import org.springframework.util.concurrent.ListenableFutureCallback;
 
 @Service
 public class MessageProducer {
 
     RabbitTemplate template;
+    AsyncRabbitTemplate asyncTemplate;
 
     public MessageProducer(RabbitTemplate template) {
         this.template = template;
+        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer(template.getConnectionFactory());
+        container.setQueueNames("q.bob.reply");
+        this.asyncTemplate = new AsyncRabbitTemplate(template, container);
+        this.asyncTemplate.start();
     }
 
     public void enviarMensagemApenasParaAlice(String msg) {
@@ -80,4 +95,20 @@ public class MessageProducer {
                     "").toString();
     } 
     
+    public String descobrirQuemEhDepois() throws InterruptedException, ExecutionException, TimeoutException {
+        RabbitConverterFuture<String> future = asyncTemplate.convertSendAndReceive("de.message", "rk.bob.request", "");            
+        //faço algum trabalho para tentar receber depois a resposta
+        return future.get(10, TimeUnit.SECONDS);
+    }
+
+    public void descobrirQuemEhQuandoQuiserResponder() {
+        RabbitConverterFuture<String> future = asyncTemplate.convertSendAndReceive("de.message", "rk.bob.request", "");
+        future.whenComplete((result, exc) -> {
+            try { Thread.sleep(3000); } catch (InterruptedException e) { e.printStackTrace(); }
+            if (exc == null)
+                System.out.println("Recebi mensagem async de forma notificada: " +  result);
+            else
+                exc.printStackTrace();
+        });
+    }
 }

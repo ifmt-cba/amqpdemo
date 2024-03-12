@@ -1,5 +1,8 @@
 package br.edu.ifmt.amqpdemo.produtor;
 
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeoutException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +20,7 @@ public class MessageController {
     }    
 
     @GetMapping
-    public String executar() {
+    public String executar() throws InterruptedException, ExecutionException, TimeoutException {
       produtor.enviarMensagemApenasParaAlice("Olá Alice!");
       produtor.enviarMensagemApenasParaBob("Olá Bob!");
       produtor.enviarMensagemApenasParaCarla("Olá Carla!");
@@ -29,7 +32,9 @@ public class MessageController {
       produtor.enviarMensagemErrada("Olá Daniel!");
       produtor.enviarMensagemParaAliceComTempoDeVidaBaixo("Olá Atrasado Alice!");
       System.out.println("de.alice?: " + produtor.descobrirQuemEh("de.alice"));
-
+      System.out.println("Quem é vc Async?: " + produtor.descobrirQuemEhDepois());
+      produtor.descobrirQuemEhQuandoQuiserResponder();
+      
       return "OK";
     }
 }

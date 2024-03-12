@@ -14,4 +14,10 @@ public class Bob {
         System.out.println("Bob recebeu: " + msg);
     }
 
+    @RabbitListener(queues = "q.bob.request")
+    private String quemSou() throws InterruptedException {
+        Thread.sleep(3000);
+        return "Olá, me chamo Bob!";
+    }
+
 }
