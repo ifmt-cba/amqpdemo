@@ -1,7 +1,5 @@
 package br.edu.ifmt.amqpdemo.produtor;
 
-import java.util.Random;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -14,7 +12,6 @@ import org.springframework.amqp.rabbit.RabbitConverterFuture;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.stereotype.Service;
-import org.springframework.util.concurrent.ListenableFutureCallback;
 
 @Service
 public class MessageProducer {
