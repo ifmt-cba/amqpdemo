@@ -9,7 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class InvalidMessages {
 
     @RabbitListener(queues = "q.invalid")
-    private void recebeMensagem(String msg) {
+    private void recebeMensagem(String msg) throws InterruptedException {
+        Thread.sleep(3000);
         System.out.println("Mensagem com rota inválida: " + msg);
     }
 

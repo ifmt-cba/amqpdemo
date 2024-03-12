@@ -67,9 +67,11 @@ public class MessageProducer {
     public void enviarMensagemParaAliceComTempoDeVidaBaixo(String msg) {
         template.convertAndSend("de.message","rk.alice",msg,
             message -> {
-                message.getMessageProperties().setExpiration(String.valueOf(1000));
+                message.getMessageProperties().setExpiration(String.valueOf(20000));
                 return message;
-            });        
+            });
+            //Obs: mensagens vencidas que são entregues para um exchange são descartadas
+            //     e não são encaminhadas para um dead letter exchange
     }
 
     public String descobrirQuemEh(String exchange) {

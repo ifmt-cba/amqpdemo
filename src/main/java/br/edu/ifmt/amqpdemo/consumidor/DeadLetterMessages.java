@@ -9,7 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class DeadLetterMessages {
 
     @RabbitListener(queues = "q.deadletter")
-    private void recebeMensagem(String msg) {
+    private void recebeMensagem(String msg) throws InterruptedException {
+        Thread.sleep(3000);
         System.out.println("Mensagem vencida: " + msg);
     }
 

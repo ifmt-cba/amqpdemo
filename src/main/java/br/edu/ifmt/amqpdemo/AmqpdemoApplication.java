@@ -46,7 +46,7 @@ public class AmqpdemoApplication {
         Map<String, Object> args = new HashMap<String, Object>();
         args.put("x-dead-letter-exchange", "de.deadletter");
         args.put("x-dead-letter-routing-key", "rk.deadletter");
-        args.put("x-message-ttl", 1);
+        args.put("x-message-ttl", 12000);
         return new Queue("q.alice", true, false, false, args);
     }
 
